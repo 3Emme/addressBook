@@ -17,7 +17,7 @@ AddressBook.prototype.assignId = function() {
 
 AddressBook.prototype.findContact = function(id) {
   for (let i = 0; i < this.contacts.length; i++) {
-      if (contacts[i]) {
+      if (this.contacts[i]) {
     if (this.contacts[i].id == id) {
       return this.contacts[i];
     }
@@ -26,12 +26,12 @@ AddressBook.prototype.findContact = function(id) {
   return false; 
 }
 
-AddressBook.prototype.deleteContact = function() {
+AddressBook.prototype.deleteContact = function(id) {
   for (let i = 0; i < this.contacts.length; i++) {
-    if (contacts[i]) {
-    if (this.contacts[i].id == id) {
-      delete this.contacts[i];
-      return true;
+    if (this.contacts[i]) {
+      if (this.contacts[i].id == id) {
+        delete this.contacts[i];
+        return true;
     }
     }
   };
@@ -50,7 +50,7 @@ Contact.prototype.fullName = function() {
   this.firstName + " " + this.lastName;
 }
 
-function Address(workAddress, schoolAddress, personalAddress) {
+function Addresses(workAddress, schoolAddress, personalAddress) {
   this.workAddress = workAddress;
   this.schoolAddress =  schoolAddress;
   this.personalAddress = personalAddress;
@@ -76,6 +76,9 @@ function showContact(contactId) {
   $(".first-name").html(contact.firstName);
   $(".last-name").html(contact.lastName);
   $(".phone-number").html(contact.phoneNumber);
+  $(".work-address").html(contact.addresses.workAddress);
+  $(".school-address").html(contact.addresses.schoolAddress);
+  $(".personal-address").html(contact.addresses.personalAddress);
   let buttons = $("#buttons");
   buttons.empty();
   buttons.append("<button class='deleteButton' id=" + contact.id + ">Delete</button>");
@@ -106,8 +109,12 @@ $(document).ready(function() {
     $("input#new-first-name").val("");
     $("input#new-last-name").val("");
     $("input#new-phone-number").val("");
+    $("input#new-work-address").val("");
+    $("input#new-school-address").val("");
+    $("input#new-personal-address").val("");
     let newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber, addresses);
     addressBook.addContact(newContact);
     displayContactDetails(addressBook);
+    //$("form#new-contact").trigger("reset"); // Alternative form reset method.
   })
 })
